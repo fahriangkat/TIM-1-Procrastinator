@@ -1,0 +1,34 @@
+{
+    "name": "TouchControl",
+    "maps": [
+        {
+            "name": "Touch",
+            "id": "45e8a8e4-b9d6-4850-ad38-f768d7148633",
+            "actions": [
+                {
+                    "name": "TouchPrimary",
+                    "type": "PassThrough",
+                    "id": "be9c396d-6153-4a19-a7cc-f5665951e29e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "4ebc1524-bd30-420d-9a6e-b92f2491644b",
+                    "path": "<Touchscreen>/primaryTouch",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TouchPrimary",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

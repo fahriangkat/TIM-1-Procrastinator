@@ -1,0 +1,22 @@
+using TMPro;
+using UnityEngine;
+
+public class CoinDisplay : MonoBehaviour
+{
+    public TextMeshProUGUI coinText; // TMP Text untuk menampilkan jumlah koin
+
+    private void Start()
+    {
+        UpdateCoinDisplay(); // Panggil method ini saat awal
+    }
+
+    // Method untuk memperbarui tampilan jumlah koin
+    public void UpdateCoinDisplay()
+    {
+        // Dapatkan jumlah koin dari ShopManager
+        int coins = ShopManager.Instance.GetCoins();
+
+        // Perbarui teks pada layar dengan jumlah koin yang dimiliki
+        coinText.text = "Coins: " + coins.ToString();
+    }
+}
