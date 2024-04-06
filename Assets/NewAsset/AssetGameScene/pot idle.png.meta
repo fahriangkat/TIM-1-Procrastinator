@@ -42,7 +42,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -114,7 +114,17 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      pot idle_0: -2051045573
+      pot idle_1: -768724083
+      pot idle_2: 437660235
+      pot idle_3: 573820013
+      pot idle_4: 1350541210
+      pot idle_5: 2131262260
+      pot idle_6: -1412239172
+      pot idle_7: -1706737409
+      pot idle_8: 2144491159
+      pot idle_9: 637582667
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

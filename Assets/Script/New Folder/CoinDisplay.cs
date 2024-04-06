@@ -17,6 +17,6 @@ public class CoinDisplay : MonoBehaviour
         int coins = ShopManager.Instance.GetCoins();
 
         // Perbarui teks pada layar dengan jumlah koin yang dimiliki
-        coinText.text = "Coins: " + coins.ToString();
+        coinText.text = ": " + coins.ToString();
     }
 }

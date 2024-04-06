@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +7,8 @@ public class CraftingSystem : MonoBehaviour
     public static CraftingSystem Instance;
 
     public List<CraftRecipe> craftingRecipes = new List<CraftRecipe>();
-
+    public Animator potAnimator; // Animator for the Pot object
+    public Animator witchAnimator;
     private void Awake()
     {
         Instance = this;
@@ -21,7 +23,7 @@ public class CraftingSystem : MonoBehaviour
         // Tambahkan resep-resep crafting ke dalam list craftingRecipes
         craftingRecipes.AddRange(recipes);
     }
-
+    
     public bool CanCraft()
     {
         if (CraftStation.Instance == null)
@@ -62,42 +64,53 @@ public class CraftingSystem : MonoBehaviour
     }
 
     public void CraftItem()
+{
+    if (CanCraft())
     {
-        if (CanCraft())
+        CraftRecipe matchedRecipe = null;
+
+        foreach (CraftRecipe recipe in craftingRecipes)
         {
-            CraftRecipe matchedRecipe = null;
+            if (CheckRecipeIngredients(recipe))
+            {
+                matchedRecipe = recipe;
+                break;
+            }
+        }
 
-            // Iterasi semua resep crafting
-            foreach (CraftRecipe recipe in craftingRecipes)
+        if (matchedRecipe != null)
+        {
+            foreach (Items ingredient in matchedRecipe.requiredIngredients)
             {
-                // Cek apakah bahan-bahan di craft station sesuai dengan resep saat ini
-                if (CheckRecipeIngredients(recipe))
-                {
-                    // Jika sesuai, set matchedRecipe ke resep saat ini
-                    matchedRecipe = recipe;
-                    break; // Keluar dari loop karena sudah menemukan resep yang cocok
-                }
+                CraftStation.Instance.RemoveItem(ingredient);
             }
 
-            // Jika ada resep yang cocok ditemukan
-            if (matchedRecipe != null)
-            {
-                // Hapus semua bahan yang digunakan dari craft station
-                foreach (Items ingredient in matchedRecipe.requiredIngredients)
-                {
-                    CraftStation.Instance.RemoveItem(ingredient);
-                }
-                // Tambahkan item yang dihasilkan ke craft station
-                CraftStation.Instance.AddItem(matchedRecipe.resultingItem);
-            }
-            else
-            {
-                Debug.Log("No matching recipe found for current ingredients.");
-            }
+            // Trigger animation to start crafting
+            potAnimator.SetBool("isCrafting", true); // Atau potAnimator.SetBool("isCrafting", true); tergantung pada setup Animator Anda
+            witchAnimator.SetBool("isWitchidle", true);
+            StartCoroutine(AddCraftedItemCoroutine(matchedRecipe.resultingItem));
         }
         else
         {
-            Debug.Log("Not enough ingredients to craft.");
+            Debug.Log("No matching recipe found for current ingredients.");
         }
     }
+    else
+    {
+        Debug.Log("Not enough ingredients to craft.");
+    }
+}
+
+
+    private IEnumerator AddCraftedItemCoroutine(Items craftedItem)
+{
+    yield return new WaitForSeconds(5f); // Delay selama 5 detik
+    
+    // Tambahkan item yang dihasilkan ke craft station
+    CraftStation.Instance.AddItem(craftedItem);
+    
+    // Switch back to idle animation after crafting is done
+    potAnimator.SetBool("isCrafting", false);
+    witchAnimator.SetBool("isWitchidle", false);
+}
 }
