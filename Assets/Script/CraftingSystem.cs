@@ -9,6 +9,13 @@ public class CraftingSystem : MonoBehaviour
     public List<CraftRecipe> craftingRecipes = new List<CraftRecipe>();
     public Animator potAnimator; // Animator for the Pot object
     public Animator witchAnimator;
+    public AudioSource craftSound;
+    public AudioClip craftingSoundClip;
+    public AudioSource idleSoundSource; // AudioSource untuk suara PotIdle
+    public AudioClip idleSoundClip; // Suara PotIdle
+    public AudioSource craftedItemSoundSource; // AudioSource untuk sound effect CraftedItem
+    public AudioClip craftedItemSoundClip; // Sound effect untuk CraftedItem
+
     private void Awake()
     {
         Instance = this;
@@ -23,7 +30,18 @@ public class CraftingSystem : MonoBehaviour
         // Tambahkan resep-resep crafting ke dalam list craftingRecipes
         craftingRecipes.AddRange(recipes);
     }
-    
+
+    // Method untuk menyalakan suara PotIdle
+    private void PlayIdleSound()
+    {
+        if (!idleSoundSource.isPlaying) // Memastikan suara tidak diputar berulang-ulang
+        {
+            idleSoundSource.clip = idleSoundClip;
+            idleSoundSource.loop = true; // Aktifkan looping agar suara tetap berbunyi
+            idleSoundSource.Play();
+        }
+    }
+
     public bool CanCraft()
     {
         if (CraftStation.Instance == null)
@@ -64,53 +82,61 @@ public class CraftingSystem : MonoBehaviour
     }
 
     public void CraftItem()
-{
-    if (CanCraft())
     {
-        CraftRecipe matchedRecipe = null;
-
-        foreach (CraftRecipe recipe in craftingRecipes)
+        if (CanCraft())
         {
-            if (CheckRecipeIngredients(recipe))
-            {
-                matchedRecipe = recipe;
-                break;
-            }
-        }
+            CraftRecipe matchedRecipe = null;
 
-        if (matchedRecipe != null)
-        {
-            foreach (Items ingredient in matchedRecipe.requiredIngredients)
+            foreach (CraftRecipe recipe in craftingRecipes)
             {
-                CraftStation.Instance.RemoveItem(ingredient);
+                if (CheckRecipeIngredients(recipe))
+                {
+                    matchedRecipe = recipe;
+                    break;
+                }
             }
 
-            // Trigger animation to start crafting
-            potAnimator.SetBool("isCrafting", true); // Atau potAnimator.SetBool("isCrafting", true); tergantung pada setup Animator Anda
-            witchAnimator.SetBool("isWitchidle", true);
-            StartCoroutine(AddCraftedItemCoroutine(matchedRecipe.resultingItem));
+            if (matchedRecipe != null)
+            {
+                foreach (Items ingredient in matchedRecipe.requiredIngredients)
+                {
+                    CraftStation.Instance.RemoveItem(ingredient);
+                }
+
+                // Trigger animation to start crafting
+                potAnimator.SetBool("isCrafting", true); // Atau potAnimator.SetBool("isCrafting", true); tergantung pada setup Animator Anda
+                witchAnimator.SetBool("isWitchidle", true);
+                
+                craftSound.PlayOneShot(craftingSoundClip); 
+                StartCoroutine(AddCraftedItemCoroutine(matchedRecipe.resultingItem));
+            }
+            else
+            {
+                Debug.Log("No matching recipe found for current ingredients.");
+            }
         }
         else
         {
-            Debug.Log("No matching recipe found for current ingredients.");
+            Debug.Log("Not enough ingredients to craft.");
         }
     }
-    else
-    {
-        Debug.Log("Not enough ingredients to craft.");
-    }
-}
 
 
     private IEnumerator AddCraftedItemCoroutine(Items craftedItem)
-{
-    yield return new WaitForSeconds(5f); // Delay selama 5 detik
-    
-    // Tambahkan item yang dihasilkan ke craft station
-    CraftStation.Instance.AddItem(craftedItem);
-    
-    // Switch back to idle animation after crafting is done
-    potAnimator.SetBool("isCrafting", false);
-    witchAnimator.SetBool("isWitchidle", false);
-}
+    {
+        yield return new WaitForSeconds(5f); // Delay selama 5 detik
+        
+        // Tambahkan item yang dihasilkan ke craft station
+        CraftStation.Instance.AddItem(craftedItem);
+        
+        // Trigger sound effect untuk CraftedItem
+        craftedItemSoundSource.PlayOneShot(craftedItemSoundClip);
+
+        // Switch back to idle animation after crafting is done
+        potAnimator.SetBool("isCrafting", false);
+        witchAnimator.SetBool("isWitchidle", false);
+
+        // Matikan suara PotIdle setelah item selesai di craft
+       
+    }
 }
