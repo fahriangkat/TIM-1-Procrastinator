@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 236eb4261b6c30f4c87dfffdde7c9488, type: 3}
+  m_Name: Love Recipe
+  m_EditorClassIdentifier: 
+  recipeName: Love Potion Recipe
+  requiredIngredients:
+  - {fileID: 11400000, guid: 36248329bb2c0064fadc7819a5b1dc61, type: 2}
+  - {fileID: 11400000, guid: 7ba6ffd8c47d8fd4db369476f3b9e823, type: 2}
+  - {fileID: 11400000, guid: 7a6e73c5840d30341b7ef96922d71d23, type: 2}
+  resultingItem: {fileID: 11400000, guid: 3dd92653cd5111640a4a3c1f5a42ebca, type: 2}

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 236eb4261b6c30f4c87dfffdde7c9488, type: 3}
+  m_Name: Fire resist Recipe
+  m_EditorClassIdentifier: 
+  recipeName: Fire Resist Recipe
+  requiredIngredients:
+  - {fileID: 11400000, guid: 76400086bc6528241bef8beef226d22f, type: 2}
+  - {fileID: 11400000, guid: 1aeba1a66049e124c95fee19ad60dd3e, type: 2}
+  resultingItem: {fileID: 11400000, guid: a6069983088b5154bb79c610aa456d48, type: 2}

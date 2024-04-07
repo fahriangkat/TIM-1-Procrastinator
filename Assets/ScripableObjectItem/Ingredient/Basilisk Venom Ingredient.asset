@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 915d1505f35fead4e8cacf7204989f1e, type: 3}
+  m_Name: Basilisk Venom Ingredient
+  m_EditorClassIdentifier: 
+  itemName: Basilisk Venom
+  icon: {fileID: 21300000, guid: 32851b5a091a7e44da8bd41d19f917a2, type: 3}
+  price: 20

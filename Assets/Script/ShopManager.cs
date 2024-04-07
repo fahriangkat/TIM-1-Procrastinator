@@ -26,6 +26,12 @@ public class ShopManager : MonoBehaviour
         Debug.Log("Not enough coins to buy this item.");
     }
 }
+public void AddDailyCoins(int amount)
+{
+    coins += amount;
+    UpdateCoinDisplay();
+    Debug.Log($"Added {amount} coins. Total coins: {coins}");
+}
     public int GetCoins()
     {
         return coins;

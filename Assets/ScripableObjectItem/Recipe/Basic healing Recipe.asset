@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 236eb4261b6c30f4c87dfffdde7c9488, type: 3}
+  m_Name: Basic healing Recipe
+  m_EditorClassIdentifier: 
+  recipeName: Basic Healing Recipe
+  requiredIngredients:
+  - {fileID: 11400000, guid: 1aeba1a66049e124c95fee19ad60dd3e, type: 2}
+  - {fileID: 11400000, guid: 7ba6ffd8c47d8fd4db369476f3b9e823, type: 2}
+  resultingItem: {fileID: 11400000, guid: 32de05f3acc1dd341ad58857f7708481, type: 2}

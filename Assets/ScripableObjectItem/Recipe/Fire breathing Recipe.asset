@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 236eb4261b6c30f4c87dfffdde7c9488, type: 3}
+  m_Name: Fire breathing Recipe
+  m_EditorClassIdentifier: 
+  recipeName: Fire Breathing Recipe
+  requiredIngredients:
+  - {fileID: 11400000, guid: 76400086bc6528241bef8beef226d22f, type: 2}
+  - {fileID: 11400000, guid: 825412720acd41441870de6155512053, type: 2}
+  resultingItem: {fileID: 11400000, guid: 13d22bf5cc418f940ae7479653446e9f, type: 2}
