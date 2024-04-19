@@ -14,4 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Fire Breathing Potion
   icon: {fileID: 21300000, guid: 6a6968d5b35dd814eb134149c4520161, type: 3}
-  price: 0
+  price: 100
+  sellPrice: 15
+  isSelected: 0

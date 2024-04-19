@@ -15,3 +15,5 @@ MonoBehaviour:
   itemName: Magicap
   icon: {fileID: 21300000, guid: fdbca6a0f2cca9644bd6665448d63d74, type: 3}
   price: 10
+  sellPrice: 0
+  isSelected: 0

@@ -15,3 +15,5 @@ MonoBehaviour:
   itemName: Haste Potion
   icon: {fileID: 21300000, guid: 2ad3516e3d93f18438f92bdeaa8141a4, type: 3}
   price: 0
+  sellPrice: 15
+  isSelected: 0

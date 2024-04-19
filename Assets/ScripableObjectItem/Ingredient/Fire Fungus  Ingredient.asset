@@ -15,3 +15,5 @@ MonoBehaviour:
   itemName: Fire Fungus
   icon: {fileID: 21300000, guid: c747a56cd5c78eb46afc9f09ebd6d9f8, type: 3}
   price: 10
+  sellPrice: 0
+  isSelected: 0

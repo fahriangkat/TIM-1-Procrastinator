@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Items;
+using UnityEngine.SceneManagement;
 
 public class CraftingSystem : MonoBehaviour
 {
@@ -16,10 +18,14 @@ public class CraftingSystem : MonoBehaviour
     public AudioSource craftedItemSoundSource; // AudioSource untuk sound effect CraftedItem
     public AudioClip craftedItemSoundClip; // Sound effect untuk CraftedItem
 
+    private List<string> allPotions = new List<string>(); // Daftar semua jenis potion dalam game
+    private List<string> craftedPotions = new List<string>(); // Daftar potion yang sudah dibuat oleh pemain
+
     private void Awake()
     {
         Instance = this;
         LoadCraftingRecipes(); // Panggil method untuk memuat resep-resep crafting
+        GetAllPotions(); // Panggil method untuk mendapatkan semua jenis potion dalam game
     }
 
     private void LoadCraftingRecipes()
@@ -30,6 +36,22 @@ public class CraftingSystem : MonoBehaviour
         // Tambahkan resep-resep crafting ke dalam list craftingRecipes
         craftingRecipes.AddRange(recipes);
     }
+
+    // Method untuk mendapatkan semua jenis potion dalam game
+    private void GetAllPotions()
+{
+    foreach (CraftRecipe recipe in craftingRecipes)
+    {
+        // Jika item yang dihasilkan oleh resep adalah potion, tambahkan nama potion ke dalam list allPotions
+        // Perhatikan bahwa ini telah diperbarui untuk memeriksa kelas Items, bukan PotionItem
+        if (recipe.resultingItem is Items)
+        {
+            allPotions.Add(recipe.resultingItem.itemName);
+        }
+    }
+}
+
+// Kemudi
 
     // Method untuk menyalakan suara PotIdle
     private void PlayIdleSound()
@@ -42,7 +64,7 @@ public class CraftingSystem : MonoBehaviour
         }
     }
 
-    public bool CanCraft()
+    public bool CanCraft(CraftRecipe recipe)
     {
         if (CraftStation.Instance == null)
         {
@@ -50,19 +72,26 @@ public class CraftingSystem : MonoBehaviour
             return false;
         }
 
-        // Iterasi semua resep crafting
-        foreach (CraftRecipe recipe in craftingRecipes)
+        // Cek apakah resep sudah terbuka
+        if (!recipe.isUnlocked)
         {
-            // Cek apakah bahan-bahan di craft station sesuai dengan resep saat ini
-            if (CheckRecipeIngredients(recipe))
+            Debug.Log("Recipe is locked. Cannot craft.");
+            return false;
+        }
+
+        // Iterasi semua bahan-bahan yang diperlukan oleh resep
+        foreach (Items ingredient in recipe.requiredIngredients)
+        {
+            // Cek apakah bahan tersedia di craft station
+            if (!CraftStation.Instance.HasIngredient(ingredient))
             {
-                // Jika sesuai, kembalikan true
-                return true;
+                Debug.Log("Missing ingredient: " + ingredient.itemName);
+                return false;
             }
         }
 
-        // Jika tidak ada resep yang sesuai dengan bahan-bahan di craft station, kembalikan false
-        return false;
+        // Jika semua bahan tersedia dan resep terbuka, kembalikan true
+        return true;
     }
 
     private bool CheckRecipeIngredients(CraftRecipe recipe)
@@ -81,33 +110,33 @@ public class CraftingSystem : MonoBehaviour
         return true;
     }
 
-    public void CraftItem()
+    public void CraftItem(CraftRecipe recipe)
     {
-        if (CanCraft())
+        if (CanCraft(recipe))
         {
+            // Temukan resep yang sesuai dengan bahan-bahan di craft station
             CraftRecipe matchedRecipe = null;
-
-            foreach (CraftRecipe recipe in craftingRecipes)
+            foreach (CraftRecipe r in craftingRecipes)
             {
-                if (CheckRecipeIngredients(recipe))
+                if (r == recipe)
                 {
-                    matchedRecipe = recipe;
+                    matchedRecipe = r;
                     break;
                 }
             }
 
             if (matchedRecipe != null)
             {
+                // Hapus bahan-bahan yang digunakan untuk crafting dari craft station
                 foreach (Items ingredient in matchedRecipe.requiredIngredients)
                 {
                     CraftStation.Instance.RemoveItem(ingredient);
                 }
 
-                // Trigger animation to start crafting
-                potAnimator.SetBool("isCrafting", true); // Atau potAnimator.SetBool("isCrafting", true); tergantung pada setup Animator Anda
+                // Jalankan proses crafting
+                potAnimator.SetBool("isCrafting", true);
                 witchAnimator.SetBool("isWitchidle", true);
-                
-                craftSound.PlayOneShot(craftingSoundClip); 
+                craftSound.PlayOneShot(craftingSoundClip);
                 StartCoroutine(AddCraftedItemCoroutine(matchedRecipe.resultingItem));
             }
             else
@@ -117,26 +146,105 @@ public class CraftingSystem : MonoBehaviour
         }
         else
         {
-            Debug.Log("Not enough ingredients to craft.");
+            Debug.Log("Cannot craft item. Recipe is locked or missing ingredients.");
         }
     }
 
-
-    private IEnumerator AddCraftedItemCoroutine(Items craftedItem)
+    // CraftingSystem.cs
+    public CraftRecipe GetMatchedRecipe()
     {
-        yield return new WaitForSeconds(5f); // Delay selama 5 detik
-        
-        // Tambahkan item yang dihasilkan ke craft station
-        CraftStation.Instance.AddItem(craftedItem);
-        
-        // Trigger sound effect untuk CraftedItem
-        craftedItemSoundSource.PlayOneShot(craftedItemSoundClip);
+        foreach (CraftRecipe recipe in craftingRecipes)
+        {
+            // Cek apakah resep cocok dan telah terbuka
+            if (CheckRecipeIngredients(recipe) && recipe.isUnlocked)
+            {
+                return recipe;
+            }
+        }
+        return null;
+    }
 
-        // Switch back to idle animation after crafting is done
-        potAnimator.SetBool("isCrafting", false);
-        witchAnimator.SetBool("isWitchidle", false);
+    public void UnlockRecipe(CraftRecipe recipe)
+    {
+        // Temukan resep yang sesuai di dalam daftar craftingRecipes
+        CraftRecipe matchedRecipe = craftingRecipes.Find(r => r == recipe);
+        
+        if (matchedRecipe != null)
+        {
+            matchedRecipe.isUnlocked = true; // Setel status resep menjadi terbuka
+            Debug.Log("Recipe unlocked: " + matchedRecipe.recipeName);
+        }
+        else
+        {
+            Debug.LogWarning("Recipe not found: " + recipe.recipeName);
+        }
+    }
 
-        // Matikan suara PotIdle setelah item selesai di craft
-       
+    public bool IsRecipeUnlocked(CraftRecipe recipe)
+    {
+        // Temukan resep yang sesuai di dalam daftar craftingRecipes
+        CraftRecipe matchedRecipe = craftingRecipes.Find(r => r == recipe);
+        
+        if (matchedRecipe != null)
+        {
+            return matchedRecipe.isUnlocked; // Kembalikan status terkunci atau terbuka dari resep
+        }
+        else
+        {
+            Debug.LogWarning("Recipe not found: " + recipe.recipeName);
+            return false;
+        }
+    }
+
+  private IEnumerator AddCraftedItemCoroutine(Items craftedItem)
+{
+    yield return new WaitForSeconds(5f); // Delay selama 5 detik
+        
+    // Tambahkan item yang dihasilkan ke craft station
+    CraftStation.Instance.AddItem(craftedItem);
+        
+    // Trigger sound effect untuk CraftedItem
+    craftedItemSoundSource.PlayOneShot(craftedItemSoundClip);
+
+    // Switch back to idle animation after crafting is done
+    potAnimator.SetBool("isCrafting", false);
+    witchAnimator.SetBool("isWitchidle", false);
+
+    // Matikan suara PotIdle setelah item selesai di craft
+
+    // Tambahkan pemanggilan ke method AddCraftedPotion dari PotionManager
+    if (craftedItem is Items)
+    {
+        // Ubah Items menjadi Items jika Items adalah turunan dari Items
+        Items item = craftedItem as Items;
+        // Jika diperlukan, tambahkan logika untuk menangani item yang berbeda di sini
+    }
+
+    // Periksa apakah semua jenis potion telah dibuat
+    if (IsAllPotionsCrafted())
+    {
+        // Panggil method untuk memicu pergantian scene ke end screen
+        GoToEndScreen();
+    }
+}
+
+    // Method untuk memeriksa apakah pemain telah membuat semua jenis potion yang ada di game
+    private bool IsAllPotionsCrafted()
+    {
+        // Periksa apakah semua jenis potion sudah dibuat
+        foreach (string potionName in allPotions)
+        {
+            if (!craftedPotions.Contains(potionName))
+            {
+                return false; // Belum semua potion dibuat
+            }
+        }
+        return true; // Semua potion sudah dibuat
+    }
+
+    // Method untuk memicu pergantian scene ke end screen
+    private void GoToEndScreen()
+    {
+        SceneManager.LoadScene(3); // Ganti angka 1 dengan nomor indeks scene end screen yang kamu miliki
     }
 }

@@ -15,3 +15,5 @@ MonoBehaviour:
   itemName: Saint Bones
   icon: {fileID: 21300000, guid: c0ef452665e399448af7e156e35378dc, type: 3}
   price: 5
+  sellPrice: 0
+  isSelected: 0

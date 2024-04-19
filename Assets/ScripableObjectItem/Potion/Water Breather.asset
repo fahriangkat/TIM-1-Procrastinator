@@ -15,3 +15,5 @@ MonoBehaviour:
   itemName: Water Breathing Potion
   icon: {fileID: 21300000, guid: cb36b02003c79bd46937b8a1d3f2696e, type: 3}
   price: 0
+  sellPrice: 15
+  isSelected: 0

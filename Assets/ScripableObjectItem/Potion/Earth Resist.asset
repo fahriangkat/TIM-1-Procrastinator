@@ -15,3 +15,5 @@ MonoBehaviour:
   itemName: Earth Resist Potion
   icon: {fileID: 21300000, guid: 4b11dc96a38896d43ae339a4ab152c21, type: 3}
   price: 0
+  sellPrice: 15
+  isSelected: 0

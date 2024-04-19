@@ -15,3 +15,5 @@ MonoBehaviour:
   itemName: Witch Bulb
   icon: {fileID: 21300000, guid: 69840c639e8ef0847b938894b4ff69fa, type: 3}
   price: 5
+  sellPrice: 0
+  isSelected: 0

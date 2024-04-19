@@ -15,3 +15,5 @@ MonoBehaviour:
   itemName: Draco Wing
   icon: {fileID: 21300000, guid: b2b379f6e49ebfb4a9f7b77ed7b39592, type: 3}
   price: 10
+  sellPrice: 0
+  isSelected: 0

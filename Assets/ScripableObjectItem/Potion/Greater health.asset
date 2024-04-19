@@ -15,3 +15,5 @@ MonoBehaviour:
   itemName: Greater Healing Potion
   icon: {fileID: 21300000, guid: 3bc7a914462ae2946ab1b2bb41eb298a, type: 3}
   price: 0
+  sellPrice: 15
+  isSelected: 0

@@ -15,3 +15,5 @@ MonoBehaviour:
   itemName: Dubious Potion
   icon: {fileID: 21300000, guid: 41e213db462863f49b4ec2b802e9a4de, type: 3}
   price: 0
+  sellPrice: 15
+  isSelected: 0

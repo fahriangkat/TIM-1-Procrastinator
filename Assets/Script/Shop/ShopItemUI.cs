@@ -11,6 +11,7 @@ public class ShopItemUI : MonoBehaviour
 
     private Items shopItem; // Mengganti ShopItemSO menjadi Items
 
+    // Method untuk menampilkan informasi item pada shop
     public void SetShopItem(Items item) // Mengganti ShopItemSO menjadi Items
     {
         shopItem = item;
@@ -36,6 +37,7 @@ public class ShopItemUI : MonoBehaviour
         }
     }
 
+    // Method untuk menangani pembelian item
     private void BuyItem()
     {
         if (shopItem != null)

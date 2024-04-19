@@ -1,10 +1,11 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Item",menuName ="Item/Create New Item")]
+[CreateAssetMenu(fileName = "New Item", menuName = "Items/Create New Item")]
 public class Items : ScriptableObject
 {
-    // Start is called before the first frame update
     public string itemName;
     public Sprite icon;
     public int price;
+    public int sellPrice;
+    public bool isSelected; // Flag to indicate if the item is selected
 }

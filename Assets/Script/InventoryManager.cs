@@ -7,75 +7,167 @@ public class InventoryManager : MonoBehaviour
     [SerializeField]
     public static InventoryManager Instance;
 
+    public List<CraftRecipe> Recipes = new List<CraftRecipe>(); // List to store recipes
+    
     public List<Items> Items = new List<Items>(); // List to store items
     public Transform InventoryContent; // Container for UI items in the inventory
     public GameObject InventoryItem; // Prefab for UI item in the inventory
     public Toggle EnableRemove;
+    private ShopManager shopManager;
+    public Button sellButton;
+    
+    public CoinDisplay coinDisplay;
+
 
     private void Awake()
     {
         Instance = this;
-
+        shopManager = ShopManager.Instance;
         // Add initial items to the inventory
     }
 
-    public void AddItem(Items item)
-{
-    Items.Add(item);
-    Debug.Log("Item added to inventory: " + item.itemName);
-    // After adding an item, update the inventory UI
-    ListItem(); // Panggil metode ListItem di sini
-}
+    public void AddRecipe(CraftRecipe recipe)
+    {
+        Recipes.Add(recipe);
+        Debug.Log("Recipe added to inventory: " + recipe.recipeName);
+        // After adding a recipe, update the inventory UI
+        ListItem();
+    }
 
-   public void Remove(Items item)
-{
-    Items.Remove(item);
-    // After removing an item, update the inventory UI
-    ListItem(); // Panggil metode ListItem di sini
-}
+    public void AddItem(Items item)
+    {
+        Items.Add(item);
+        Debug.Log("Item added to inventory: " + item.itemName);
+        // After adding an item, update the inventory UI
+        ListItem();
+    }
+
+    public void Remove(Items item)
+    {
+        Items.Remove(item);
+        // After removing an item, update the inventory UI
+        ListItem();
+    }
+
     public void ListItem()
     {
-        // Check if InventoryContent is null
         if (InventoryContent == null)
         {
             Debug.LogWarning("InventoryContent is not assigned!");
             return;
         }
 
-        // Clear existing UI elements
         foreach (Transform item in InventoryContent)
         {
             Destroy(item.gameObject);
         }
 
-        // Instantiate UI elements for each item in the inventory
         foreach (var item in Items)
         {
-            // Null-check InventoryItem prefab
-            if (InventoryItem == null)
-            {
-                Debug.LogWarning("InventoryItem prefab is not assigned!");
-                return;
-            }
-
-            // Instantiate UI element with a valid parent (InventoryContent)
             GameObject itemObj = Instantiate(InventoryItem, InventoryContent);
             if (itemObj == null)
             {
                 Debug.LogWarning("Failed to instantiate InventoryItem prefab!");
-                return;
+                continue;
             }
 
-            // Get references to UI components and update them
-            var itemName = itemObj.transform.Find("ItemName").GetComponent<TMPro.TextMeshProUGUI>();
+            var itemNameText = itemObj.transform.Find("ItemName").GetComponent<TMPro.TextMeshProUGUI>();
             var itemIcon = itemObj.transform.GetComponent<Image>();
 
-            itemName.text = item.itemName;
+            itemNameText.text = item.itemName;
             itemIcon.sprite = item.icon;
+            itemObj.GetComponent<Button>().onClick.AddListener(() => SelectItem(item));
+
+            if (item is RecipeItem)
+            {
+                // If the item is a recipe, handle it differently
+                RecipeItem recipeItem = item as RecipeItem;
+                // Set isUnlocked to true for the corresponding recipe
+                if (recipeItem.correspondingRecipe != null)
+                {
+                    recipeItem.correspondingRecipe.isUnlocked = true;
+                    Debug.Log($"Craft recipe unlocked: {recipeItem.correspondingRecipe.recipeName}");
+                }
+                // Example: Add click listener to show recipe info
+                itemObj.GetComponent<Button>().onClick.AddListener(() => ShowRecipeInfo(recipeItem.correspondingRecipe));
+            }
         }
 
-        // Update the visibility of remove buttons
         EnableItemsRemove();
+    }
+ public void SellSelectedItem()
+{
+    // Cek apakah ada item yang dipilih
+    Items selectedItem = GetSelectedItem();
+    if (selectedItem != null)
+    {
+        // Jual item yang dipilih dan hapus dari inventori
+        coinDisplay.AddCoins(selectedItem.sellPrice);
+        Remove(selectedItem);
+    }
+    else
+    {
+        Debug.Log("No item selected to sell.");
+    }
+}
+
+
+    private void SelectItem(Items item)
+    {
+        // Clear previous selection
+        foreach (var i in Items)
+        {
+            i.isSelected = false;
+        }
+
+        // Set the selected item
+        item.isSelected = true;
+
+        // Update UI
+        ListItem();
+    }
+
+    public Items GetSelectedItem()
+    {
+        foreach (var item in Items)
+        {
+            if (item.isSelected)
+            {
+                return item;
+            }
+        }
+        return null;
+    }
+
+    public void ShowRecipeInfo(CraftRecipe recipe)
+    {
+        // Implement method to show recipe information panel
+    }
+
+    public void RemoveItem(Items item)
+    {
+        Items.Remove(item);
+        Debug.Log($"Item removed from inventory: {item.itemName}");
+
+        // If the removed item is a RecipeItem, set isUnlocked to false for its corresponding recipe
+        if (item is RecipeItem)
+        {
+            RecipeItem recipeItem = item as RecipeItem;
+            if (recipeItem.correspondingRecipe != null)
+            {
+                recipeItem.correspondingRecipe.isUnlocked = false;
+                Debug.Log($"Craft recipe locked: {recipeItem.correspondingRecipe.recipeName}");
+            }
+        }
+
+        // Update the inventory UI after removing an item
+        ListItem();
+    }
+
+    // Add this method to handle remove button click event
+    public void RemoveItemButtonClicked(Items item)
+    {
+        RemoveItem(item);
     }
 
     public void EnableItemsRemove()

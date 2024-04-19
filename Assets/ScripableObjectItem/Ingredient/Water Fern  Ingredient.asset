@@ -15,3 +15,5 @@ MonoBehaviour:
   itemName: Water Fern
   icon: {fileID: 21300000, guid: 2925406e50ae65842825fa0828792a65, type: 3}
   price: 5
+  sellPrice: 0
+  isSelected: 0

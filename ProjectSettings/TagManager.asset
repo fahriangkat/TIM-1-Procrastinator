@@ -8,6 +8,9 @@ TagManager:
   - BrewStation
   - Canvas1
   - CraftStation
+  - CraftingSystem
+  - InventoryContent
+  - Inventory
   layers:
   - Default
   - TransparentFX
