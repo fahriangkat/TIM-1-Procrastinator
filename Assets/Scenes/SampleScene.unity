@@ -1490,18 +1490,6 @@ MonoBehaviour:
   craftingRecipes:
   - {fileID: 11400000, guid: 333a653904524434b80b2d85bae3f2e9, type: 2}
   - {fileID: 11400000, guid: 8f8efa98918ef4541a2f9148a222f68e, type: 2}
-  - {fileID: 11400000, guid: 308cd5680b846d8498875750ddfd69a4, type: 2}
-  - {fileID: 11400000, guid: 41044b66dee05444d8324ece3e4acf96, type: 2}
-  - {fileID: 11400000, guid: 3b8e8a3ba66513c48be82f6eb5d5ffd1, type: 2}
-  - {fileID: 11400000, guid: a6596e39cbcef7d4fb48b4d70ca6a047, type: 2}
-  - {fileID: 11400000, guid: 1106dd0b5675006419ffde86192e8afa, type: 2}
-  - {fileID: 11400000, guid: 872845d68fc462a4daddbd5da84bac9e, type: 2}
-  - {fileID: 11400000, guid: d560b70677b2b3f4ba7c5509a1a78fe7, type: 2}
-  - {fileID: 11400000, guid: 097230643e37fbe428774d9d1dec1142, type: 2}
-  - {fileID: 11400000, guid: f2ed6a36d6f01564aa99944c6ae4ed7e, type: 2}
-  - {fileID: 11400000, guid: 07af9460bb3d5204d87f11c0fcb896f3, type: 2}
-  - {fileID: 11400000, guid: e6846e8fe73f83843bd17c75fe3562c3, type: 2}
-  - {fileID: 11400000, guid: 775239a10cab2204ead18cf30f7a6672, type: 2}
   potAnimator: {fileID: 188803226}
   witchAnimator: {fileID: 302979065}
   craftSound: {fileID: 198610509}
@@ -4604,6 +4592,7 @@ GameObject:
   m_Component:
   - component: {fileID: 860766367}
   - component: {fileID: 860766366}
+  - component: {fileID: 860766368}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -4638,6 +4627,21 @@ Transform:
   m_Father: {fileID: 1741250389}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &860766368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 860766365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58aee4c27450aab45bdf15eec9e4dc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  craftedPotions:
+  - Basic Healing Potion
+  - Basic Mana Potion
 --- !u!224 &881882220 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2500302442518923198, guid: 9876269cea1092948b5daa5f573fb386, type: 3}
@@ -6455,12 +6459,9 @@ MonoBehaviour:
   Recipes:
   - {fileID: 11400000, guid: 333a653904524434b80b2d85bae3f2e9, type: 2}
   - {fileID: 11400000, guid: 8f8efa98918ef4541a2f9148a222f68e, type: 2}
-  - {fileID: 11400000, guid: 308cd5680b846d8498875750ddfd69a4, type: 2}
-  - {fileID: 11400000, guid: 41044b66dee05444d8324ece3e4acf96, type: 2}
   Items:
   - {fileID: 11400000, guid: 7ba6ffd8c47d8fd4db369476f3b9e823, type: 2}
   - {fileID: 11400000, guid: 1aeba1a66049e124c95fee19ad60dd3e, type: 2}
-  - {fileID: 11400000, guid: 13d22bf5cc418f940ae7479653446e9f, type: 2}
   - {fileID: 11400000, guid: cefeebde92a915b40bb3a2537dba55f3, type: 2}
   InventoryContent: {fileID: 2109485043}
   InventoryItem: {fileID: 7309393404349683950, guid: 0232067a73a1ef049888a8f41c70c2cc, type: 3}
@@ -8700,6 +8701,50 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &1879299300
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1879299302}
+  - component: {fileID: 1879299301}
+  m_Layer: 0
+  m_Name: AdsManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1879299301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1879299300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be7e5f53e9574d74093eab4a132d734b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1879299302
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1879299300}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1566.0707, y: 748.09845, z: -9.768542}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1886263204
 GameObject:
   m_ObjectHideFlags: 0

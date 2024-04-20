@@ -6,16 +6,23 @@ public class PotionManager : MonoBehaviour
 {
     public static PotionManager Instance;
 
-    public List<string> craftedPotions = new List<string>();
+    public List<string> craftedPotions = new List<string>(); // Daftar nama potion yang telah dibuat
 
     private void Awake()
     {
         Instance = this;
     }
 
-    public void AddCraftedPotion(string potionName)
+    public void AddCraftedRecipe(CraftRecipe recipe)
     {
-        craftedPotions.Add(potionName);
-        Debug.Log("Crafted potion: " + potionName);
+        // Tambahkan nama potion yang dihasilkan oleh resep ke daftar craftedPotions
+        craftedPotions.Add(recipe.resultingItem.itemName);
+
+        // Tambahkan debug log untuk memeriksa daftar potion yang telah dibuat
+        Debug.Log("Crafted Potions:");
+        foreach (string potion in craftedPotions)
+        {
+            Debug.Log("- " + potion);
+        }
     }
 }
