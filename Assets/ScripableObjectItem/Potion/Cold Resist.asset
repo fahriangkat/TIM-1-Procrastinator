@@ -15,5 +15,5 @@ MonoBehaviour:
   itemName: Cold Resist Potion
   icon: {fileID: 21300000, guid: f99eb8819ac846248ba06ff412ae8c33, type: 3}
   price: 0
-  sellPrice: 15
+  sellPrice: 10
   isSelected: 0

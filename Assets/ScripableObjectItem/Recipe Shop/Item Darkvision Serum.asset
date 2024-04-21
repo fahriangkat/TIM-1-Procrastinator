@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Darkvision Serum
   icon: {fileID: 21300000, guid: ff8f1378d4c0be842b3a3706ab786539, type: 3}
-  price: 25
+  price: 30
   sellPrice: 0
   isSelected: 0
   correspondingRecipe: {fileID: 11400000, guid: 41044b66dee05444d8324ece3e4acf96, type: 2}

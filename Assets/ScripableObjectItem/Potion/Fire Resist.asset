@@ -15,5 +15,5 @@ MonoBehaviour:
   itemName: Fire Resist Potion
   icon: {fileID: 21300000, guid: a14e828ceb12f7045971d39d9ee82232, type: 3}
   price: 0
-  sellPrice: 15
+  sellPrice: 10
   isSelected: 0

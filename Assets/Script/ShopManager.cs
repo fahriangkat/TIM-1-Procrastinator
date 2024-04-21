@@ -8,11 +8,28 @@ public class ShopManager : MonoBehaviour
     // List of items in the shop
     public List<Items> shopItems = new List<Items>();
 
-    public int coins { get; private set; } = 100;
-    
+    private int coins = 100; // Default starting coins
+
+    private string coinsSaveKey = "PlayerCoins"; // Key for saving coins
+
     private void Awake()
     {
         Instance = this;
+        LoadCoins(); // Load player coins when the game starts
+    }
+
+    private void LoadCoins()
+    {
+        if (PlayerPrefs.HasKey(coinsSaveKey))
+        {
+            coins = PlayerPrefs.GetInt(coinsSaveKey);
+        }
+    }
+
+    private void SaveCoins()
+    {
+        PlayerPrefs.SetInt(coinsSaveKey, coins);
+        PlayerPrefs.Save();
     }
 
     public void BuyItem(Items item)
@@ -23,6 +40,7 @@ public class ShopManager : MonoBehaviour
             {
                 InventoryManager.Instance.AddItem(item);
                 Instance.coins -= item.price;
+                SaveCoins(); // Save player coins after buying an item
                 UpdateCoinDisplay();
             }
             else
@@ -57,6 +75,7 @@ public class ShopManager : MonoBehaviour
                     Debug.Log("Matching recipe not found for purchased item.");
                 }
 
+                SaveCoins(); // Save player coins after buying a recipe item
                 UpdateCoinDisplay();
             }
             else
@@ -75,6 +94,7 @@ public class ShopManager : MonoBehaviour
         if (Instance != null)
         {
             Instance.coins += amount;
+            SaveCoins(); // Save player coins after adding coins
             UpdateCoinDisplay(); // Update the coin display after adding coins
         }
         else
@@ -82,24 +102,18 @@ public class ShopManager : MonoBehaviour
             Debug.LogError("ShopManager Instance is not assigned.");
         }
     }
+
     public void SellItem(Items item)
     {
         coins += item.sellPrice; // Add sell price to coins when item is sold
         InventoryManager.Instance.Remove(item);
+        SaveCoins(); // Save player coins after selling an item
         UpdateCoinDisplay();
     }
 
     public int GetCoins()
     {
-        if (Instance != null)
-        {
-            return Instance.coins;
-        }
-        else
-        {
-            Debug.LogError("ShopManager Instance is not assigned.");
-            return 0;
-        }
+        return coins;
     }
 
     public void AddDailyCoins(int amount)
@@ -107,6 +121,7 @@ public class ShopManager : MonoBehaviour
         if (Instance != null)
         {
             Instance.coins += amount;
+            SaveCoins(); // Save player coins after adding daily coins
             UpdateCoinDisplay();
             Debug.Log($"Added {amount} coins. Total coins: {Instance.coins}");
         }

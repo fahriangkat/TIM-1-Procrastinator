@@ -15,7 +15,7 @@ MonoBehaviour:
   recipeName: Love Potion Recipe
   requiredIngredients:
   - {fileID: 11400000, guid: 36248329bb2c0064fadc7819a5b1dc61, type: 2}
-  - {fileID: 11400000, guid: 7ba6ffd8c47d8fd4db369476f3b9e823, type: 2}
+  - {fileID: 11400000, guid: cefeebde92a915b40bb3a2537dba55f3, type: 2}
   - {fileID: 11400000, guid: 7a6e73c5840d30341b7ef96922d71d23, type: 2}
   resultingItem: {fileID: 11400000, guid: 3dd92653cd5111640a4a3c1f5a42ebca, type: 2}
   isUnlocked: 0

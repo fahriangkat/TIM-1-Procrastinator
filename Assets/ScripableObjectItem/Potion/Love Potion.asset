@@ -15,5 +15,5 @@ MonoBehaviour:
   itemName: Love Potion
   icon: {fileID: 21300000, guid: 756a3de9a425fe748879c9c0ae9130d7, type: 3}
   price: 0
-  sellPrice: 15
+  sellPrice: 25
   isSelected: 0

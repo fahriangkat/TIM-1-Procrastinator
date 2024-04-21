@@ -18,12 +18,38 @@ public class InventoryManager : MonoBehaviour
     
     public CoinDisplay coinDisplay;
 
-
+    private string inventorySaveKey = "Inventory"; // Key for saving inventory data
+    
     private void Awake()
     {
         Instance = this;
         shopManager = ShopManager.Instance;
         // Add initial items to the inventory
+        LoadInventory(); // Load inventory data when the game starts
+    }
+
+    // Method to save inventory data
+    public void SaveInventory()
+    {
+        // Convert Items list to JSON string
+        string inventoryJson = JsonUtility.ToJson(Items);
+        // Save JSON string to PlayerPrefs
+        PlayerPrefs.SetString(inventorySaveKey, inventoryJson);
+        PlayerPrefs.Save();
+    }
+
+    // Method to load inventory data
+    public void LoadInventory()
+    {
+        if (PlayerPrefs.HasKey(inventorySaveKey))
+        {
+            // Get JSON string from PlayerPrefs
+            string inventoryJson = PlayerPrefs.GetString(inventorySaveKey);
+            // Convert JSON string back to Items list
+            Items = JsonUtility.FromJson<List<Items>>(inventoryJson);
+            // Update inventory UI after loading inventory data
+            ListItem();
+        }
     }
 
     public void AddRecipe(CraftRecipe recipe)
@@ -32,6 +58,8 @@ public class InventoryManager : MonoBehaviour
         Debug.Log("Recipe added to inventory: " + recipe.recipeName);
         // After adding a recipe, update the inventory UI
         ListItem();
+        // Save inventory data after adding recipe
+        SaveInventory();
     }
 
     public void AddItem(Items item)
@@ -40,6 +68,8 @@ public class InventoryManager : MonoBehaviour
         Debug.Log("Item added to inventory: " + item.itemName);
         // After adding an item, update the inventory UI
         ListItem();
+        // Save inventory data after adding item
+        SaveInventory();
     }
 
     public void Remove(Items item)
@@ -47,6 +77,8 @@ public class InventoryManager : MonoBehaviour
         Items.Remove(item);
         // After removing an item, update the inventory UI
         ListItem();
+        // Save inventory data after removing item
+        SaveInventory();
     }
 
     public void ListItem()
@@ -95,21 +127,22 @@ public class InventoryManager : MonoBehaviour
 
         EnableItemsRemove();
     }
- public void SellSelectedItem()
-{
-    // Cek apakah ada item yang dipilih
-    Items selectedItem = GetSelectedItem();
-    if (selectedItem != null)
+    
+    public void SellSelectedItem()
     {
-        // Jual item yang dipilih dan hapus dari inventori
-        coinDisplay.AddCoins(selectedItem.sellPrice);
-        Remove(selectedItem);
+        // Cek apakah ada item yang dipilih
+        Items selectedItem = GetSelectedItem();
+        if (selectedItem != null)
+        {
+            // Jual item yang dipilih dan hapus dari inventori
+            coinDisplay.AddCoins(selectedItem.sellPrice);
+            Remove(selectedItem);
+        }
+        else
+        {
+            Debug.Log("No item selected to sell.");
+        }
     }
-    else
-    {
-        Debug.Log("No item selected to sell.");
-    }
-}
 
 
     private void SelectItem(Items item)

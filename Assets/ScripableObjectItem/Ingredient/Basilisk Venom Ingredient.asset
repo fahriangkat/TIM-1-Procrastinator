@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Basilisk Venom
   icon: {fileID: 21300000, guid: 32851b5a091a7e44da8bd41d19f917a2, type: 3}
-  price: 20
+  price: 10
   sellPrice: 0
   isSelected: 0

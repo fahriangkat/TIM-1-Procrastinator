@@ -7,7 +7,7 @@ using System;
 
 public class AdsManager : MonoBehaviour
 {
-    private string _adUnitId = "ca-app-pub-3940256099942544/6300978111";
+    private string _adUnitId = "ca-app-pub-3940256099942544/3347511713";
     // Start is called before the first frame update
 
     BannerView _bannerView;

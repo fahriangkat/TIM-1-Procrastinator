@@ -19,17 +19,55 @@ public class CraftingSystem : MonoBehaviour
     public AudioClip craftedItemSoundClip;
 
     private List<string> craftedPotions = new List<string>(); // Daftar nama potion yang telah dibuat
+    private List<string> unlockedRecipes = new List<string>(); // Daftar nama resep yang telah dibuka
+
+    private string craftedPotionsSaveKey = "CraftedPotions"; // Key for saving crafted potions
+    private string unlockedRecipesSaveKey = "UnlockedRecipes"; // Key for saving unlocked recipes
 
     private void Awake()
     {
         Instance = this;
         LoadCraftingRecipes();
+        LoadCraftedPotions(); // Load crafted potions when the game starts
+        LoadUnlockedRecipes(); // Load unlocked recipes when the game starts
     }
 
     private void LoadCraftingRecipes()
     {
         CraftRecipe[] recipes = Resources.LoadAll<CraftRecipe>("CraftingRecipes");
         craftingRecipes.AddRange(recipes);
+    }
+
+    private void LoadCraftedPotions()
+    {
+        if (PlayerPrefs.HasKey(craftedPotionsSaveKey))
+        {
+            string potionsJson = PlayerPrefs.GetString(craftedPotionsSaveKey);
+            craftedPotions = JsonUtility.FromJson<List<string>>(potionsJson);
+        }
+    }
+
+    private void SaveCraftedPotions()
+    {
+        string potionsJson = JsonUtility.ToJson(craftedPotions);
+        PlayerPrefs.SetString(craftedPotionsSaveKey, potionsJson);
+        PlayerPrefs.Save();
+    }
+
+    private void LoadUnlockedRecipes()
+    {
+        if (PlayerPrefs.HasKey(unlockedRecipesSaveKey))
+        {
+            string recipesJson = PlayerPrefs.GetString(unlockedRecipesSaveKey);
+            unlockedRecipes = JsonUtility.FromJson<List<string>>(recipesJson);
+        }
+    }
+
+    private void SaveUnlockedRecipes()
+    {
+        string recipesJson = JsonUtility.ToJson(unlockedRecipes);
+        PlayerPrefs.SetString(unlockedRecipesSaveKey, recipesJson);
+        PlayerPrefs.Save();
     }
 
     private void PlayIdleSound()
@@ -128,6 +166,8 @@ public class CraftingSystem : MonoBehaviour
         if (matchedRecipe != null)
         {
             matchedRecipe.isUnlocked = true;
+            unlockedRecipes.Add(matchedRecipe.recipeName);
+            SaveUnlockedRecipes();
             Debug.Log("Recipe unlocked: " + matchedRecipe.recipeName);
         }
         else
@@ -138,17 +178,7 @@ public class CraftingSystem : MonoBehaviour
 
     public bool IsRecipeUnlocked(CraftRecipe recipe)
     {
-        CraftRecipe matchedRecipe = craftingRecipes.Find(r => r == recipe);
-        
-        if (matchedRecipe != null)
-        {
-            return matchedRecipe.isUnlocked;
-        }
-        else
-        {
-            Debug.LogWarning("Recipe not found: " + recipe.recipeName);
-            return false;
-        }
+        return unlockedRecipes.Contains(recipe.recipeName);
     }
 
     private IEnumerator AddCraftedItemCoroutine(Items craftedItem)
@@ -164,6 +194,7 @@ public class CraftingSystem : MonoBehaviour
 
         // Tambahkan nama potion ke daftar craftedPotions
         craftedPotions.Add(craftedItem.itemName);
+        SaveCraftedPotions(); // Save crafted potions after adding new potion
 
         // Periksa apakah semua resep telah dibuat
         if (IsAllPotionsCrafted())
@@ -186,13 +217,13 @@ public class CraftingSystem : MonoBehaviour
     }
 
     private IEnumerator GoToEndScreenAfterDelay(float delay)
-{
-    yield return new WaitForSeconds(delay);
-    SceneManager.LoadScene(3);
-}
+    {
+        yield return new WaitForSeconds(delay);
+        SceneManager.LoadScene(3);
+    }
 
-private void GoToEndScreen()
-{
-    StartCoroutine(GoToEndScreenAfterDelay(5f)); // Menunggu 5 detik sebelum berpindah ke scene berikutnya
-}
+    private void GoToEndScreen()
+    {
+        StartCoroutine(GoToEndScreenAfterDelay(5f)); // Menunggu 5 detik sebelum berpindah ke scene berikutnya
+    }
 }

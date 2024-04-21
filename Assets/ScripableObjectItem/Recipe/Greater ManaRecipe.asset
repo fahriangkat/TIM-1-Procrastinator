@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   recipeName: Greater Mana Recipe
   requiredIngredients:
-  - {fileID: 11400000, guid: 7ba6ffd8c47d8fd4db369476f3b9e823, type: 2}
+  - {fileID: 11400000, guid: 1aeba1a66049e124c95fee19ad60dd3e, type: 2}
   - {fileID: 11400000, guid: 3f2bd59419844d6439f24a95b6d66016, type: 2}
   - {fileID: 11400000, guid: cefeebde92a915b40bb3a2537dba55f3, type: 2}
   resultingItem: {fileID: 11400000, guid: 13305c89c2c4baf419f6d59aaf9a4579, type: 2}

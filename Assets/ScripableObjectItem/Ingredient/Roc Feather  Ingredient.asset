@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Roc Feather
   icon: {fileID: 21300000, guid: 03ceee480ad9c494ab516a85ab01064f, type: 3}
-  price: 10
+  price: 5
   sellPrice: 0
   isSelected: 0

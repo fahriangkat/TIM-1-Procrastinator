@@ -15,5 +15,5 @@ MonoBehaviour:
   itemName: Grater Mana Potion
   icon: {fileID: 21300000, guid: eaee10a18ebadc942b53f98b3339b9ba, type: 3}
   price: 0
-  sellPrice: 15
+  sellPrice: 20
   isSelected: 0

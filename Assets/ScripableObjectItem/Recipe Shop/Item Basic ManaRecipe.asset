@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Basic Mana Recipe
   icon: {fileID: 21300000, guid: ff8f1378d4c0be842b3a3706ab786539, type: 3}
-  price: 25
+  price: 15
   sellPrice: 0
   isSelected: 0
   correspondingRecipe: {fileID: 11400000, guid: 8f8efa98918ef4541a2f9148a222f68e, type: 2}

@@ -15,6 +15,6 @@ MonoBehaviour:
   recipeName: Cold Resist Recipe
   requiredIngredients:
   - {fileID: 11400000, guid: b6901380cb74a9847af95916e4724150, type: 2}
-  - {fileID: 11400000, guid: 7ba6ffd8c47d8fd4db369476f3b9e823, type: 2}
+  - {fileID: 11400000, guid: 1aeba1a66049e124c95fee19ad60dd3e, type: 2}
   resultingItem: {fileID: 11400000, guid: 23f1637c027596b4dab732c5fd286f25, type: 2}
   isUnlocked: 0
